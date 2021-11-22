@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import './App.css';
 import CustomOption from './CustomOption';
 
@@ -12,17 +12,18 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       <h2>Using React-Draft-wysiwyg-demo</h2>
       <Editor
         editorState={data}
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
+        toolbarClassName="toolbarClassName"
+        wrapperClassName="wrapperClassName"
+        editorClassName="editorClassName"
         onEditorStateChange={onEditorStateChange}
         toolbarCustomButtons={[<CustomOption />]}
       />
       <div>
-        <button type="button" onClick={() => { console.log('milan : ', data); }}>Save</button>
+        <button type="button" onClick={() => { console.log('milan : ', convertToRaw(data.getCurrentContent()).blocks.); }}>Save</button>
       </div>
     </div>
   );
