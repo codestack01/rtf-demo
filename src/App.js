@@ -1,48 +1,28 @@
 import React, { useState } from 'react';
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
 import './App.css';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomOption from './CustomOption';
 
 function App() {
-  const [data, setData] = useState();
+  const [data, setData] = useState(EditorState.createEmpty());
 
-  function extract([beg, end]) {
-    const matcher = new RegExp(`${beg}(.*?)${end}`, 'gm');
-    const normalise = (str) => str.slice(beg.length, end.length * -1);
-    return function (str) {
-      return str.match(matcher).map(normalise);
-    }
-  }
-  function getStrings() {
-    const stringExtractor = extract(['{{', '}}']);
-    const strings = stringExtractor(data);
-    console.log(strings)
-  }
+  const onEditorStateChange = (editorState) => {
+    setData(editorState);
+  };
 
   return (
     <div className="App">
-      <h2>Using CKEditor 5 build in React</h2>
-      <CKEditor
-        editor={ClassicEditor}
-        data="<p>Hello from CKEditor 5!</p>"
-        onReady={editor => {
-          // You can store the "editor" and use when it is needed.
-          console.log('Editor is ready to use!', editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log({ event, editor, data });
-          setData(data);
-        }}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
+      <h2>Using React-Draft-wysiwyg-demo</h2>
+      <Editor
+        editorState={data}
+        wrapperClassName="demo-wrapper"
+        editorClassName="demo-editor"
+        onEditorStateChange={onEditorStateChange}
+        toolbarCustomButtons={[<CustomOption />]}
       />
       <div>
-        <button type="button" onClick={getStrings}>Save</button>
+        <button type="button" onClick={() => { console.log('milan : ', data); }}>Save</button>
       </div>
     </div>
   );
