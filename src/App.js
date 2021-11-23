@@ -23,7 +23,7 @@ function App() {
         toolbarCustomButtons={[<CustomOption />]}
       />
       <div>
-        <button type="button" onClick={() => { console.log('milan : ', convertToRaw(data.getCurrentContent()).blocks.); }}>Save</button>
+        <button type="button" onClick={() => { console.log('milan : ', convertToRaw(data.getCurrentContent())); }}>Save</button>
       </div>
     </div>
   );
